@@ -12,8 +12,11 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_components REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(minimal_interfaces REQUIRED)
+
+include_directories(include)
 
 add_executable(publisher_lambda_custom src/lambda_custom.cpp)
 ament_target_dependencies(publisher_lambda_custom rclcpp std_msgs minimal_interfaces)
@@ -26,6 +29,20 @@ ament_target_dependencies(publisher_member_function rclcpp std_msgs)
 
 add_executable(publisher_not_composable src/not_composable.cpp)
 ament_target_dependencies(publisher_not_composable rclcpp std_msgs)
+
+add_library(talker_component SHARED src/talker_component.cpp)
+target_compile_definitions(talker_component
+  PRIVATE "MINIMAL_PUBLISHER_BUILDING_DLL")
+ament_target_dependencies(talker_component rclcpp std_msgs rclcpp_components)
+rclcpp_components_register_nodes(talker_component "minimal_publisher::Talker")
+# To register multiple components in the same shared library, use multiple calls
+# rclcpp_components_register_nodes(talker_component "composition::Talker2")
+
+install(TARGETS
+  talker_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 install(TARGETS
   publisher_lambda_custom
