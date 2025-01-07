@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     request->c = 2;
     auto result_future = client->async_send_request(request);
     if (rclcpp::spin_until_future_complete(node, result_future) !=
-        rclcpp::executor::FutureReturnCode::SUCCESS)
+        rclcpp::FutureReturnCode::SUCCESS)
     {
         RCLCPP_ERROR(node->get_logger(), "service call failed :(");
         return 1;
