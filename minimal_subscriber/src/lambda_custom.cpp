@@ -29,7 +29,7 @@ public:
       "topic_custom",
       10,
       [this](minimal_interfaces::msg::Num::UniquePtr msg) {
-        RCLCPP_INFO(this->get_logger(), "I heard: '%d'", msg->data);
+        RCLCPP_INFO(this->get_logger(), "I heard: '%ld'", msg->data);
       });
   }
 

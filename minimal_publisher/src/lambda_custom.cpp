@@ -36,7 +36,7 @@ public:
         [this]() -> void
     {
       auto message = minimal_interfaces::msg::Num();
-      RCLCPP_INFO(this->get_logger(), "Publishing: '%d'", this->count_);
+      RCLCPP_INFO(this->get_logger(), "Publishing: '%ld'", this->count_);
       message.data = this->count_++;
       this->publisher_->publish(message);
     };
